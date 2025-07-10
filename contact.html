@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | DiMeS GrApHiX</title>
+    <title>Contact | PiZiLx StUdIoZ</title>
+    <link rel="icon" type="image/png" href="favicon.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -91,10 +93,10 @@
             background: var(--secondary-color);
         }
 
-        .input-group input:focus + label,
-        .input-group input:not(:placeholder-shown) + label,
-        .input-group textarea:focus + label,
-        .input-group textarea:not(:placeholder-shown) + label {
+        .input-group input:focus+label,
+        .input-group input:not(:placeholder-shown)+label,
+        .input-group textarea:focus+label,
+        .input-group textarea:not(:placeholder-shown)+label {
             top: -0.8rem;
             left: 1rem;
             font-size: 1.2rem;
@@ -161,7 +163,7 @@
             margin-bottom: 0.5rem;
         }
 
-        .contact-details p, 
+        .contact-details p,
         .contact-details a {
             font-size: 1.4rem;
             color: var(--text-color);
@@ -231,6 +233,7 @@
                 transform: translateY(0) rotate(0deg);
                 opacity: 1;
             }
+
             100% {
                 transform: translateY(-1000px) rotate(720deg);
                 opacity: 0;
@@ -241,15 +244,15 @@
             .contact {
                 padding: 12rem 5% 5rem;
             }
-            
+
             .contact-container {
                 padding: 3rem;
             }
-            
+
             .contact h2 {
                 font-size: 3.5rem;
             }
-            
+
             .contact-info {
                 flex-direction: column;
                 align-items: center;
@@ -260,11 +263,11 @@
             .contact-container {
                 padding: 2rem;
             }
-            
+
             .contact h2 {
                 font-size: 3rem;
             }
-            
+
             .input-group input,
             .input-group textarea {
                 padding: 1.2rem;
@@ -272,6 +275,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Loading Animation -->
     <div class="loader">
@@ -287,7 +291,7 @@
     </div>
 
     <header>
-        <a href="index.html" class="logo">DmS</a>
+        <a href="index.html" class="logo">PiZiLx StUdIoZ</a>
         <nav>
             <a href="index.html">Home</a>
             <a href="services.html">Services</a>
@@ -307,33 +311,34 @@
 
         <div class="contact-container">
             <h2>Get In Touch</h2>
-            <p>Have a project in mind or want to discuss potential opportunities? Feel free to reach out via WhatsApp.</p>
-            
+            <p>Have a project in mind or want to discuss potential opportunities? Feel free to reach out via WhatsApp.
+            </p>
+
             <!-- WhatsApp Form -->
             <form id="whatsappForm" class="contact-form">
                 <div class="input-group">
                     <input type="text" id="name" name="name" placeholder=" " required>
                     <label for="name">Your Name</label>
                 </div>
-                
+
                 <div class="input-group">
                     <input type="email" id="email" name="email" placeholder=" " required>
                     <label for="email">Email Address</label>
                 </div>
-                
+
                 <div class="input-group">
                     <input type="text" id="subject" name="subject" placeholder=" ">
                     <label for="subject">Subject</label>
                 </div>
-                
+
                 <div class="input-group">
                     <textarea id="message" name="message" placeholder=" " required></textarea>
                     <label for="message">Your Message</label>
                 </div>
-                
+
                 <button type="submit" class="submit-btn">Send via WhatsApp</button>
             </form>
-            
+
             <div class="contact-info">
                 <div class="contact-item">
                     <div class="contact-icon">
@@ -344,7 +349,7 @@
                         <a href="https://wa.me/233557480382" target="_blank">+233557480382</a>
                     </div>
                 </div>
-                
+
                 <div class="contact-item">
                     <div class="contact-icon">
                         <i class="fas fa-phone-alt"></i>
@@ -354,7 +359,7 @@
                         <a href="tel:+233557480382">+233557480382</a>
                     </div>
                 </div>
-                
+
                 <div class="contact-item">
                     <div class="contact-icon">
                         <i class="fas fa-map-marker-alt"></i>
@@ -385,36 +390,37 @@
         // WhatsApp Form Submission
         document.getElementById("whatsappForm").addEventListener("submit", (e) => {
             e.preventDefault();
-            
+
             // Get form values
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
             const subject = document.getElementById("subject").value;
             const message = document.getElementById("message").value;
-            
+
             // Format WhatsApp message
             const whatsappText = `📌 *New Contact Form Submission* 📌\n\n` +
-                                `👤 *Name:* ${name}\n` +
-                                `📧 *Email:* ${email}\n` +
-                                `📋 *Subject:* ${subject}\n` +
-                                `💬 *Message:* ${message}`;
-            
+                `👤 *Name:* ${name}\n` +
+                `📧 *Email:* ${email}\n` +
+                `📋 *Subject:* ${subject}\n` +
+                `💬 *Message:* ${message}`;
+
             // Encode for URL
             const encodedText = encodeURIComponent(whatsappText);
-            
+
             // Replace with your WhatsApp number (with country code, no + or 0)
             const whatsappUrl = `https://wa.me/233557480382?text=${encodedText}`;
-            
+
             // Open WhatsApp in new tab
             window.open(whatsappUrl, "_blank");
-            
+
             // Optional: Clear form after submission
             e.target.reset();
-            
+
             // Optional: Show confirmation
             alert("Opening WhatsApp... Please send the pre-filled message.");
         });
     </script>
     <script src="script.js"></script>
 </body>
+
 </html>
