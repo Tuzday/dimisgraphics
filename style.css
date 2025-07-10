@@ -670,19 +670,19 @@ nav a.active {
 
 @keyframes words {
     0%, 20% {
-        content: "Web Developer";
+        content: "Graphic Designer";
     }
     21%, 40% {
         content: "UI/UX Designer";
     }
     41%, 60% {
-        content: "Frontend Expert";
+        content: "Digital Marketer";
     }
     61%, 80% {
-        content: "Problem Solver";
+        content: "Video Editor";
     }
     81%, 100% {
-        content: "Tech Enthusiast";
+        content: "Photographer";
     }
 }
 
