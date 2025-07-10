@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | DiMeS GrApHiX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Contact Page Specific Styles */
+        .contact {
+            position: relative;
+            min-height: 100vh;
+            padding: 15rem 9% 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .contact-container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(22, 22, 22, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 4rem;
+            box-shadow: 0 10px 30px rgba(183, 75, 75, 0.2);
+            border: 1px solid rgba(183, 75, 75, 0.1);
+            animation: fadeInUp 1s ease;
+        }
+
+        .contact h2 {
+            font-size: 4.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .contact p {
+            font-size: 1.6rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.6rem;
+            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(183, 75, 75, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 10px rgba(183, 75, 75, 0.3);
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 1.5rem;
+            top: 1.5rem;
+            padding: 0 0.5rem;
+            font-size: 1.6rem;
+            color: var(--text-color);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            background: var(--secondary-color);
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label,
+        .input-group textarea:focus + label,
+        .input-group textarea:not(:placeholder-shown) + label {
+            top: -0.8rem;
+            left: 1rem;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            background: rgba(22, 22, 22, 0.9);
+        }
+
+        .submit-btn {
+            padding: 1.5rem;
+            font-size: 1.6rem;
+            background: var(--primary-color);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .submit-btn:hover {
+            background: #a04040;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(183, 75, 75, 0.3);
+        }
+
+        .contact-info {
+            margin-top: 5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem 2rem;
+            background: rgba(183, 75, 75, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(23, 245, 34, 0.425);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
+            border-radius: 50%;
+            font-size: 2rem;
+        }
+
+        .contact-details h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-details p, 
+        .contact-details a {
+            font-size: 1.4rem;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Floating Circles Background */
+        .contact-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .contact-bg .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(23, 245, 34, 0.425);
+            animation: float 15s infinite linear;
+        }
+
+        .contact-bg .circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .contact-bg .circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 70%;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .contact-bg .circle:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            left: 80%;
+            animation-delay: 4s;
+            animation-duration: 18s;
+        }
+
+        .contact-bg .circle:nth-child(4) {
+            width: 250px;
+            height: 250px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 1s;
+            animation-duration: 14s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact {
+                padding: 12rem 5% 5rem;
+            }
+            
+            .contact-container {
+                padding: 3rem;
+            }
+            
+            .contact h2 {
+                font-size: 3.5rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-container {
+                padding: 2rem;
+            }
+            
+            .contact h2 {
+                font-size: 3rem;
+            }
+            
+            .input-group input,
+            .input-group textarea {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader">
+        <div class="loader-circle"></div>
+        <div class="loader-text">Loading</div>
+    </div>
+
+    <!-- Floating Navigation Toggle -->
+    <div class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo">DmS</a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="skills.html">Skills</a>
+            <a href="contact.html" class="active">Contact</a>
+        </nav>
+    </header>
+
+    <section class="contact">
+        <!-- Animated Background -->
+        <div class="contact-bg">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+
+        <div class="contact-container">
+            <h2>Get In Touch</h2>
+            <p>Have a project in mind or want to discuss potential opportunities? Feel free to reach out via WhatsApp.</p>
+            
+            <!-- WhatsApp Form -->
+            <form id="whatsappForm" class="contact-form">
+                <div class="input-group">
+                    <input type="text" id="name" name="name" placeholder=" " required>
+                    <label for="name">Your Name</label>
+                </div>
+                
+                <div class="input-group">
+                    <input type="email" id="email" name="email" placeholder=" " required>
+                    <label for="email">Email Address</label>
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" id="subject" name="subject" placeholder=" ">
+                    <label for="subject">Subject</label>
+                </div>
+                
+                <div class="input-group">
+                    <textarea id="message" name="message" placeholder=" " required></textarea>
+                    <label for="message">Your Message</label>
+                </div>
+                
+                <button type="submit" class="submit-btn">Send via WhatsApp</button>
+            </form>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>WhatsApp</h3>
+                        <a href="https://wa.me/233557480382" target="_blank">+233557480382</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Phone</h3>
+                        <a href="tel:+233557480382">+233557480382</a>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Location</h3>
+                        <p>Agona Swedru</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification Bell -->
+    <div class="notification-bell">
+        <i class="fas fa-bell"></i>
+        <span class="notification-badge">1</span>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-icon">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+    </div>
+
+    <script>
+        // WhatsApp Form Submission
+        document.getElementById("whatsappForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const subject = document.getElementById("subject").value;
+            const message = document.getElementById("message").value;
+            
+            // Format WhatsApp message
+            const whatsappText = `📌 *New Contact Form Submission* 📌\n\n` +
+                                `👤 *Name:* ${name}\n` +
+                                `📧 *Email:* ${email}\n` +
+                                `📋 *Subject:* ${subject}\n` +
+                                `💬 *Message:* ${message}`;
+            
+            // Encode for URL
+            const encodedText = encodeURIComponent(whatsappText);
+            
+            // Replace with your WhatsApp number (with country code, no + or 0)
+            const whatsappUrl = `https://wa.me/233557480382?text=${encodedText}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, "_blank");
+            
+            // Optional: Clear form after submission
+            e.target.reset();
+            
+            // Optional: Show confirmation
+            alert("Opening WhatsApp... Please send the pre-filled message.");
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

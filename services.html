@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | DiMeS GrApHiX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Services Page Specific Styles */
+        .services {
+            position: relative;
+            min-height: 100vh;
+            padding: 15rem 9% 5rem;
+            z-index: 1;
+        }
+
+        .services h2 {
+            font-size: 4.5rem;
+            margin-bottom: 5rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .service-box {
+            background: rgba(22, 22, 22, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid rgba(183, 75, 75, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease backwards;
+            animation-delay: calc(var(--i) * 0.2s);
+        }
+
+        .service-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(183, 75, 75, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .service-box i {
+            font-size: 5rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .service-box h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-box p {
+            font-size: 1.6rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .service-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary-color);
+            color: var(--bg-color);
+            border-radius: 8px;
+            font-size: 1.6rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .service-btn:hover {
+            background: #a04040;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(183, 75, 75, 0.3);
+        }
+
+        /* Floating Circles Background */
+        .services-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .services-bg .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(23, 245, 34, 0.425);
+            animation: float 15s infinite linear;
+        }
+
+        .services-bg .circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .services-bg .circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 70%;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .services-bg .circle:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            left: 80%;
+            animation-delay: 4s;
+            animation-duration: 18s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .services {
+                padding: 12rem 5% 5rem;
+            }
+            
+            .services h2 {
+                font-size: 3.5rem;
+            }
+            
+            .services-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .services h2 {
+                font-size: 3rem;
+            }
+            
+            .service-box {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader">
+        <div class="loader-circle"></div>
+        <div class="loader-text">Loading</div>
+    </div>
+
+    <!-- Floating Navigation Toggle -->
+    <div class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo">DmS</a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="services.html" class="active">Services</a>
+            <a href="skills.html">Skills</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section class="services">
+        <!-- Animated Background -->
+        <div class="services-bg">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+
+        <h2>Our Services</h2>
+
+        <div class="services-container">
+            <!-- Service 1 -->
+            <div class="service-box" style="--i: 1">
+                <i class="fas fa-paint-brush"></i>
+                <h3>Graphic Design</h3>
+                <p>Professional logo design, branding materials, social media graphics, and print-ready designs that make your business stand out.</p>
+                <a href="contact.html" class="service-btn">Get Started</a>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-box" style="--i: 2">
+                <i class="fas fa-code"></i>
+                <h3>Web Development</h3>
+                <p>Custom responsive websites built with modern technologies to ensure fast loading, great UX, and mobile compatibility.</p>
+                <a href="contact.html" class="service-btn">Get Started</a>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-box" style="--i: 3">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>UI/UX Design</h3>
+                <p>User-centered interface designs that enhance usability and create seamless digital experiences for your customers.</p>
+                <a href="contact.html" class="service-btn">Get Started</a>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-box" style="--i: 4">
+                <i class="fas fa-bullhorn"></i>
+                <h3>Digital Marketing</h3>
+                <p>Comprehensive social media management, SEO optimization, and targeted ad campaigns to grow your online presence.</p>
+                <a href="contact.html" class="service-btn">Get Started</a>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-box" style="--i: 5">
+                <i class="fas fa-photo-video"></i>
+                <h3>Video Editing</h3>
+                <p>Professional video production services including editing, motion graphics, and animation for commercials and social media.</p>
+                <a href="contact.html" class="service-btn">Get Started</a>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="service-box" style="--i: 6">
+                <i class="fas fa-camera-retro"></i>
+                <h3>Photography</h3>
+                <p>High-quality product photography, portraits, and event coverage with professional editing and retouching.</p>
+                <a href="contact.html" class="service-btn">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification Bell -->
+    <div class="notification-bell">
+        <i class="fas fa-bell"></i>
+        <span class="notification-badge">1</span>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-icon">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
