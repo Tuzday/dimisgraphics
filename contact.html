@@ -283,20 +283,22 @@
         <div class="loader-text">Loading</div>
     </div>
 
-    <!-- Floating Navigation Toggle -->
-    <div class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
 
     <header>
-        <a href="index.html" class="logo">PiZiLx StUdIoZ</a>
+        <a href="#" class="logo">PiZiLx StUdIoZ</a>
+
+        <!-- Floating Navigation Toggle -->
+        <div class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
         <nav>
-            <a href="index.html">Home</a>
+            <a href="#" class="active">Home</a>
             <a href="services.html">Services</a>
             <a href="skills.html">Skills</a>
-            <a href="contact.html" class="active">Contact</a>
+            <a href="contact.html">Contact</a>
         </nav>
     </header>
 
@@ -403,6 +405,7 @@
                 `📧 *Email:* ${email}\n` +
                 `📋 *Subject:* ${subject}\n` +
                 `💬 *Message:* ${message}`;
+                ` THANK YOU FOR CONTACTING PiZiLx StUdIoZ`
 
             // Encode for URL
             const encodedText = encodeURIComponent(whatsappText);
