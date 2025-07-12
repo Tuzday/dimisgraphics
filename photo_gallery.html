@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.jpg">
+    <title>Photo Gallery | PiZiLx StUdIoZ</title>
+</head>
+
+<style>
+    /* Gallery Styles */
+    .gallery {
+        position: relative;
+        min-height: 100vh;
+        padding: 15rem 9% 5rem;
+        z-index: 1;
+    }
+
+    .gallery h2 {
+        font-size: 4.5rem;
+        margin-bottom: 3rem;
+        color: var(--primary-color);
+        text-align: center;
+    }
+
+    .gallery-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .gallery-item {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        aspect-ratio: 1/1;
+    }
+
+    .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(23, 245, 34, 0.3);
+    }
+
+    .gallery-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover .gallery-img {
+        transform: scale(1.05);
+    }
+
+    .gallery-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        color: white;
+        padding: 2rem 1rem 1rem;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-caption {
+        transform: translateY(0);
+    }
+
+    .gallery-caption h3 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .gallery-caption p {
+        font-size: 1.4rem;
+        opacity: 0.8;
+    }
+
+    /* Lightbox */
+    .lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .lightbox-content {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .lightbox-img {
+        max-height: 80vh;
+        max-width: 90vw;
+        border-radius: 5px;
+        box-shadow: 0 0 25px rgba(23, 245, 34, 0.5);
+    }
+
+    .lightbox-caption {
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        font-size: 1.6rem;
+    }
+
+    .close-btn,
+    .nav-btn {
+        position: absolute;
+        color: white;
+        font-size: 3rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .close-btn {
+        top: 20px;
+        right: 30px;
+    }
+
+    .nav-btn {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .prev-btn {
+        left: 30px;
+    }
+
+    .next-btn {
+        right: 30px;
+    }
+
+    .close-btn:hover,
+    .nav-btn:hover {
+        color: var(--primary-color);
+    }
+
+    /* Filter Controls */
+    .gallery-filter {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 3rem;
+    }
+
+    .filter-btn {
+        padding: 0.8rem 2rem;
+        background: rgba(23, 245, 34, 0.1);
+        color: var(--text-color);
+        border: 1px solid var(--primary-color);
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+        background: var(--primary-color);
+        color: var(--bg-color);
+    }
+
+    /* Floating Circles Background */
+    .gallery-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+    }
+
+    .gallery-bg .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(23, 245, 34, 0.1);
+        animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(-1000px) rotate(720deg);
+            opacity: 0;
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .gallery-container {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        .gallery h2 {
+            font-size: 3.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .gallery-container {
+            grid-template-columns: 1fr;
+        }
+
+        .gallery h2 {
+            font-size: 3rem;
+        }
+    }
+</style>
+
+<body>
+    <!-- Loading Animation -->
+    <div class="loader">
+        <div class="loader-circle"></div>
+        <div class="loader-text">Loading</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">PiZiLx StUdIoZ</a>
+
+        <!-- Floating Navigation Toggle -->
+        <div class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav>
+            <a href="index.html" class="active">Home</a>
+            <a href="services.html">Services</a>
+            <a href="skills.html">Skills</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Gallery Section -->
+    <section class="gallery">
+        <!-- Animated Background -->
+        <div class="gallery-bg">
+            <div class="circle" style="width: 300px; height: 300px; top: 10%; left: 10%;"></div>
+            <div class="circle"
+                style="width: 200px; height: 200px; top: 60%; left: 70%; animation-delay: 2s; animation-duration: 12s;">
+            </div>
+            <div class="circle"
+                style="width: 150px; height: 150px; top: 30%; left: 80%; animation-delay: 4s; animation-duration: 18s;">
+            </div>
+        </div>
+
+        <h2>Our Gallery</h2>
+
+        <!-- Filter Controls -->
+        <div class="gallery-filter">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="portrait">Portrait</button>
+            <button class="filter-btn" data-filter="landscape">Landscape</button>
+            <button class="filter-btn" data-filter="events">Events</button>
+            <button class="filter-btn" data-filter="studio">Studio</button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-container">
+            <!-- Sample Images - Replace with your own -->
+            <div class="gallery-item" data-category="portrait">
+                <img src="https://source.unsplash.com/random/600x600/?portrait,1" alt="Portrait 1" class="gallery-img">
+                <div class="gallery-caption">
+                    <h3>Portrait Session</h3>
+                    <p>Professional headshot photography</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="landscape">
+                <img src="https://source.unsplash.com/random/600x600/?landscape,1" alt="Landscape 1"
+                    class="gallery-img">
+                <div class="gallery-caption">
+                    <h3>Nature Landscape</h3>
+                    <p>Beautiful outdoor scenery</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="events">
+                <img src="https://source.unsplash.com/random/600x600/?wedding,1" alt="Event 1" class="gallery-img">
+                <div class="gallery-caption">
+                    <h3>Wedding Day</h3>
+                    <p>Capturing special moments</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="studio">
+                <img src="https://source.unsplash.com/random/600x600/?studio,photoshoot,1" alt="Studio 1"
+                    class="gallery-img">
+                <div class="gallery-caption">
+                    <h3>Studio Shoot</h3>
+                    <p>Controlled lighting setup</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="portrait">
+                <img src="https://source.unsplash.com/random/600x600/?portrait,2" alt="Portrait 2" class="gallery-img">
+                <div class="gallery-caption">
+                    <h3>Creative Portrait</h3>
+                    <p>Artistic expression</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="landscape">
+                <img src="https://source.unsplash.com/random/600x600/?landscape,2" alt="Landscape 2"
+                    class="gallery-img">
+                <div class="gallery-caption">
+                    <h3>Mountain View</h3>
+                    <p>Breathtaking vistas</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="events">
+                <img src="https://source.unsplash.com/random/600x600/?concert,1" alt="Event 2" class="gallery-img">
+                <div class="gallery-caption">
+                    <h3>Concert Night</h3>
+                    <p>Live performance energy</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="studio">
+                <img src="https://source.unsplash.com/random/600x600/?fashion,1" alt="Studio 2" class="gallery-img">
+                <div class="gallery-caption">
+                    <h3>Fashion Shoot</h3>
+                    <p>Stylish wardrobe collection</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="close-btn" id="close-btn">&times;</span>
+        <span class="nav-btn prev-btn" id="prev-btn"><i class="fas fa-chevron-left"></i></span>
+        <span class="nav-btn next-btn" id="next-btn"><i class="fas fa-chevron-right"></i></span>
+        <div class="lightbox-content">
+            <img src="" alt="" class="lightbox-img" id="lightbox-img">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        // Gallery Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Filter Gallery Items
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button
+                    filterBtns.forEach(btn => btn.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const filter = btn.dataset.filter;
+
+                    // Filter items
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.dataset.category === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Lightbox Functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const closeBtn = document.getElementById('close-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            let currentIndex = 0;
+            const images = Array.from(document.querySelectorAll('.gallery-img'));
+
+            // Open lightbox
+            function openLightbox(index) {
+                currentIndex = index;
+                const imgSrc = images[currentIndex].src;
+                const imgAlt = images[currentIndex].alt;
+                const caption = images[currentIndex].parentElement.querySelector('.gallery-caption h3').textContent;
+
+                lightboxImg.src = imgSrc;
+                lightboxImg.alt = imgAlt;
+                lightboxCaption.textContent = caption;
+                lightbox.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Close lightbox
+            closeBtn.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+
+            // Navigation
+            function navigate(direction) {
+                currentIndex += direction;
+
+                if (currentIndex >= images.length) {
+                    currentIndex = 0;
+                } else if (currentIndex < 0) {
+                    currentIndex = images.length - 1;
+                }
+
+                openLightbox(currentIndex);
+            }
+
+            prevBtn.addEventListener('click', () => navigate(-1));
+            nextBtn.addEventListener('click', () => navigate(1));
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (lightbox.style.display === 'flex') {
+                    if (e.key === 'ArrowLeft') navigate(-1);
+                    if (e.key === 'ArrowRight') navigate(1);
+                    if (e.key === 'Escape') {
+                        lightbox.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            });
+
+            // Click on gallery items
+            galleryItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    openLightbox(index);
+                });
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
